@@ -46,3 +46,20 @@ Explain in about 300 words the role of registers and cache in a computer. How ar
     my answer
 - results
   - <img src="./docs/week 3.png" />
+
+# Week 4 homework: Threads and context switching
+## Question 1 (10 pts)
+```
+In about 200 words, explain the difference between a thread and a process. Explain the difference between a kernel level thread and a user level thread and any implications in a multi-core system. Discuss what is meant by context switch. What are the events or conditions that can cause a context switch? Explain how excessive context switching can lead to severe performance penalties with respect to the memory hierarchy.
+```
+- ```
+    Process means the program under execution. Thread is the segment (light-weight version) of a process. Process requires more time to terminate, create, context switch and more resource when running. Thread is more efficient for communication, has shared memory, stack and address space. Multiple processes are independent of each other while one thread can read/modify another thread's data.
+ 
+    User Level Threads (ULT) are user-managed threads, but Kernel Level Threads (KLT) are OS managed. Thus, OS is only aware of single ULT (the executing one), even when there are more than one. So, we can run several KLT in parallel on a multi-core computer system while ULT cannot. ULT is small and much faster than KLT.
+    
+    Context switch is the process of storing the state of a process/thread so that it can be resumed later. It is triggered when a process making itself terminated for other processes to execute in multitasking or an interrupt occurs or there is a transition between the user mode and kernel mode in the OS. When it happens, process-specific register data will be saved and process-specific L1 cache with virtual address will be flushed to RAM. So, writeback data down the memory hierarchy can be slow. Thus, excessive context switching will introduce performance penalties.
+    ```
+
+    my answer
+- results
+  - <img src="./docs/week 4.png" />
