@@ -63,3 +63,38 @@ In about 200 words, explain the difference between a thread and a process. Expla
     my answer
 - results
   - <img src="./docs/week 4.png" />
+# Week 5: Memory allocation in C
+## Question 1 (10 pts)
+```
+Using 100-200 words, briefly explain the following storage classes in C++: auto, register, static. Briefly explain dynamic memory allocation and the difference between stack and heap memory. State any important performance related aspects for these concepts.
+```
+- ```
+    Auto is the default storage class for local variables. It allocates runtime stack memory for variables. Auto improves performance by avoiding silent implicit conversions. Static stores variable in reserved data area makes its value unchanged throughout program execution. Performance can be improved as you don’t need to allocate memory for static variable each time you enter in its scope, you already have access to where it is stored in the data area. Register defines the variable will be stored in the hardware register. Consequently, storing frequently used variable in register provides a faster access speed than RAM to improve performance. Auto and register’s lifetime is within function/block while static is whole program. All their visibility is within function/block. Static has an initial value as 0 while auto and register’s initial value is garbage.
+
+    Dynamic memory allocation (DMA) means the mechanism we used for allocating/specifying arbitrary memory space for variables in the program during runtime instead of specifying before compiling. A stack memory stores temporary variables created by a function. The memory allocation is done by compiler instructions. Heap is unlike stack; we need to manually and dynamically allocate memory in heap for the program. Heap variables can be resized. So, heap supports DMA. Stack has a faster access speed.
+    ```
+
+    my answer
+- results
+  - <img src="./docs/week 5.jpg" />
+# Examining the Intel® Xeon® Gold 6254 Processor
+## Question 1 (20 pts)
+```
+The Spartan physg5,avx512 partition contains 41 nodes, with each node having four Intel(R) Xeon(R) Gold 6254 processors or "sockets" in sbatch terminology.  From the first URL given below this processor has 18 physical cores, so each node has 72 physical cores in total. The number of virtual cores is however 144. The processor uses the Cascade Lakes architecture and a 20 core version of the processor architecture (Xeon Gold 6248, with more cores than the Gold6254 but slower clock speed) is shown in the second URL, where 2 such processors are shown connected together over an UltraPath Interconnect (that would be on the main board of the node). Also the cache hierarchy is described, with respect to cores. In about 200 words, discuss the implications of the Gold 6254 architecture, specifically with respect to its cache hierarchy, and with respect to using a multi-processor main board (i.e. four processor sockets) in each node, in terms of performance for OpenMP/OpenMPI programming.
+
+https://ark.intel.com/content/www/us/en/ark/products/192451/intel-xeon-gold-6254-processor-24-75m-cache-3-10-ghz.html (Links to an external site.)
+
+https://www.nas.nasa.gov/hecc/support/kb/cascade-lake-processors_579.html
+
+```
+- ```
+    As Gold 6254 processor has larger L1/L2/L3 cache size than personal computer, OpenMP program’s performance is improved because more information can be stored in cache (cache-memory read/writeback times reduced). L1/L2 cache is private to each core while L3 is shared between cores. In previous week tutorial, we are told L2 cache is shared. Private L2 cache means private bus to L2 results in less contention. 1MB private L2 cache has a faster access speed as it is usually smaller than shared L2 cache size. The cores in Gold 6254 processor is organized in rows and columns rather than ring architecture which improves communication speed between cores for OpenMP program.
+
+    As 4 Gold 6254 processors on the board are interconnected by UltraPath Interconnect (UPI) links (10.4 GT/s) and bandwidth is 62.4 GB/s, the inter-socket communication time for OpenMPI program between processors in a node is fast. Although the node network communication time between nodes in physical partition is fast, this is still longer than inter-socket communication time on the main board for OpenMPI program. So, choice of nodes required for OpenMPI program is still a crucial consideration. 
+
+    Gold 6254 processor supports AVX. So OpenMP program can benefit from AVX optimization speedup as it is SPMD. However, OpenMPI program cannot as it is MPMD and AVX only supports SPMD.
+    ```
+
+    my answer
+- results
+  - <img src="./docs/xeon.jpg" />
