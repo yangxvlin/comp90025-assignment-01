@@ -1,6 +1,9 @@
 # comp90025-assignment-01
 COMP90025 - Parallel and Multicore Computing - 2020S2 - Assignment1
 
+## result
+- 17.04 out of 20 (85.2%)
+
 # Quiz Instructions
 Project 1 will be broken into small weekly quizzes, often of a single question, requiring an answer of a few hundred words.
 
@@ -98,3 +101,18 @@ https://www.nas.nasa.gov/hecc/support/kb/cascade-lake-processors_579.html
     my answer
 - results
   - <img src="./docs/xeon.jpg" />
+
+# Predicting performance on HPC systems
+## Question 1 (40 pts)
+```
+Suppose you are given the task of predicting the performance of a given parallel program on a distributed memory HPC system like snowy or physg (i.e. SMPs connected via some high performance interconnect), without being able to directly run the program on any nodes of the system. You can however observe any of the HPC system hardware specifications/measurements that you wish, in order to make your predictions, and the parallel program algorithm and problem data is known. In about 300 words or less, discuss what essential aspects of the parallel program you would look for in predicting performance, and with respect to these aspects discuss the most important HPC system hardware specifications/measurements that you would observe. Justify your choices.
+```
+- ```
+    Firstly, we can use Amdahl’s law to predict the theoretical speedup for the program based on sequential part. When we use large number of processors, the speedup approximates to 1/f. Secondly, the code implementation because a good algorithm can be implemented in a time-consuming way. We need to ensure the logic behind the code behaves expectedly (e.g. cache-friendly) considering L1/L2/L3 Cache size to suit our program in. Thirdly, we need to check the design of the algorithm and ensure all parallelable parts are distributed evenly to identical SMP processors. What’s more, we need to consider the limit of resource available in the system so that we won’t execute 8-threads program on 4-threads available environment. These can result in unexpected slowdown. Fourthly, how the program run on various nodes. As it is NUMA, different access speed between local and remote memory incurs different access delays depending on which processor accesses them. Thus, it can make performance prediction less accurate. As processors are interconnected, the performance should further consider the latency in interconnection network  as well as cache contention. Thus, the message passing (communication time) in the program should consider the latency as latency will increase the tp 
+
+    From the HPC hardware perspective, firstly, the storage system because various locations of data in the storage system  can have different disk access speed which can influence the program’s performance.  Secondly, the time we execute the program on the HPC facility (i.e. system usage) because the same code can be slower when the system is busy (practically) and makes gaps between prediction in theory and practical measurements . Processors used can influence the program’s performance. Generally, better processor architecture makes same program faster.
+    ```
+
+    my answer
+- results
+  - <img src="./docs/Predicting performance on HPC systems.jpg" />
